@@ -1,7 +1,7 @@
 //alt1 base libs, provides all the commonly used methods for image matching and capture
 //also gives your editor info about the window.alt1 api
 import * as a1lib from "@alt1/base";
-import { ImgRef } from "@alt1/base";
+import {ImgRef} from "@alt1/base";
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
@@ -16,47 +16,44 @@ var output = document.getElementById("output");
 //this function is async, so you cant acccess the images instantly but generally takes <20ms
 //use `await imgs.promise` if you want to use the images as soon as they are loaded
 var imgs = a1lib.ImageDetect.webpackImages({
-	homeport: require("./assets/img/window/materialstorage/header.data.png")
-});
-
-//listen for pasted (ctrl-v) images, usually used in the browser version of an app
-a1lib.PasteInput.listen(img => {
-	findHomeport(img);
-}, (err, errid) => {
-	output.insertAdjacentHTML("beforeend", `<div><b>${errid}</b>  ${err}</div>`);
+    homeport: require("./assets/img/window/materialstorage/header.data.png")
 });
 
 //You can reach exports on window.TEST because of
 //config.makeUmd("testpackage", "TEST"); in webpack.config.ts
 export function capture() {
-	if (!window.alt1) {
-		output.insertAdjacentHTML("beforeend", `<div>You need to run this page in alt1 to capture the screen</div>`);
-		return;
-	}
-	if (!alt1.permissionPixel) {
-		output.insertAdjacentHTML("beforeend", `<div>Page is not installed as app or capture permission is not enabled</div>`);
-		return;
-	}
-	var img = a1lib.captureHoldFullRs();
-	findHomeport(img);
+    if (!window.alt1) {
+        output.insertAdjacentHTML("beforeend", `<div>You need to run this page in alt1 to capture the screen</div>`);
+        return;
+    }
+    if (!alt1.permissionPixel) {
+        output.insertAdjacentHTML("beforeend", `<div>Page is not installed as app or capture permission is not enabled</div>`);
+        return;
+    }
+    let img = a1lib.captureHoldFullRs();
+    findHomeport(img);
 }
 
+const tick = setInterval(_=> {
+	capture();
+}, 500);
+
 function findHomeport(img: ImgRef) {
-	var loc = img.findSubimage(imgs.homeport);
-	output.insertAdjacentHTML("beforeend", `<div>homeport matches: ${JSON.stringify(loc)}</div>`);
+    var loc = img.findSubimage(imgs.homeport);
+    output.insertAdjacentHTML("beforeend", `<div>homeport matches: ${JSON.stringify(loc)}</div>`);
 
-	//overlay the result on screen if running in alt1
-	if (window.alt1) {
-		if (loc.length != 0) {
-			alt1.overLayRect(a1lib.mixColor(255, 255, 255), loc[0].x, loc[0].y, imgs.homeport.width, imgs.homeport.height, 2000, 3);
-		} else {
-			alt1.overLayTextEx("Couldn't find homeport button", a1lib.mixColor(255, 255, 255), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
-		}
-	}
+    //overlay the result on screen if running in alt1
+    if (window.alt1) {
+        if (loc.length != 0) {
+            alt1.overLayRect(a1lib.mixColor(255, 255, 255), loc[0].x, loc[0].y, imgs.homeport.width, imgs.homeport.height, 2000, 3);
+        } else {
+            alt1.overLayTextEx("Couldn't find homeport button", a1lib.mixColor(255, 255, 255), 20, Math.round(alt1.rsWidth / 2), 200, 2000, "", true, true);
+        }
+    }
 
-	//get raw pixels of image and show on screen (used mostly for debug)
-	var buf = img.toData(100, 100, 200, 200);
-	buf.show();
+    //get raw pixels of image and show on screen (used mostly for debug)
+    var buf = img.toData(100, 100, 200, 200);
+    buf.show();
 }
 
 //print text world
@@ -69,8 +66,8 @@ output.insertAdjacentHTML("beforeend", `
 
 //check if we are running inside alt1 by checking if the alt1 global exists
 if (window.alt1) {
-	//tell alt1 about the app
-	//this makes alt1 show the add app button when running inside the embedded browser
-	//also updates app settings if they are changed
-	alt1.identifyAppUrl("./appconfig.json");
+    //tell alt1 about the app
+    //this makes alt1 show the add app button when running inside the embedded browser
+    //also updates app settings if they are changed
+    alt1.identifyAppUrl("./appconfig.json");
 }

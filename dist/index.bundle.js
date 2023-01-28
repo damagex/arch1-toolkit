@@ -2236,12 +2236,6 @@ var output = document.getElementById("output");
 var imgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
     homeport: __webpack_require__(/*! ./assets/img/window/materialstorage/header.data.png */ "./assets/img/window/materialstorage/header.data.png")
 });
-//listen for pasted (ctrl-v) images, usually used in the browser version of an app
-_alt1_base__WEBPACK_IMPORTED_MODULE_0__.PasteInput.listen(img => {
-    findHomeport(img);
-}, (err, errid) => {
-    output.insertAdjacentHTML("beforeend", `<div><b>${errid}</b>  ${err}</div>`);
-});
 //You can reach exports on window.TEST because of
 //config.makeUmd("testpackage", "TEST"); in webpack.config.ts
 function capture() {
@@ -2253,9 +2247,12 @@ function capture() {
         output.insertAdjacentHTML("beforeend", `<div>Page is not installed as app or capture permission is not enabled</div>`);
         return;
     }
-    var img = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs();
+    let img = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs();
     findHomeport(img);
 }
+const tick = setInterval(_ => {
+    capture();
+}, 500);
 function findHomeport(img) {
     var loc = img.findSubimage(imgs.homeport);
     output.insertAdjacentHTML("beforeend", `<div>homeport matches: ${JSON.stringify(loc)}</div>`);

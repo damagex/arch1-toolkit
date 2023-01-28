@@ -5,10 +5,10 @@ import * as OCR from "@alt1/ocr";
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
 require("!file-loader?name=[name].[ext]!./appconfig.json");
+const output = document.querySelector("#output");
+const font = require("@alt1/ocr/fonts/pixel_digits_8px_shadow.js");
 
-var font = require("@alt1/ocr/fonts/pixel_digits_8px_shadow.js");
-
-var imgs = a1lib.ImageDetect.webpackImages({
+const imgs = a1lib.ImageDetect.webpackImages({
     materialstorage_header: require("./assets/img/window/materialstorage/header.data.png"),
     samitesilk: require("./assets/img/window/materialstorage/items/samitesilk.data.png"),
 });
@@ -17,10 +17,10 @@ export default class MaterialReader {
 
     pos: a1lib.RectLike | null = null;
 
-    find(img?: ImgRef) {
+    find(material: ImageData, img?: ImgRef) {
         if (!img) { img = a1lib.captureHoldFullRs(); }
 
-        let pos = img.findSubimage(imgs.samitesilk);
+        let pos = img.findSubimage(material);
         if (pos.length == 0) { return null; }
         if (pos.length > 1) { console.log("more than one possible boss timer found"); }
         console.log("Found!");
@@ -43,3 +43,9 @@ export default class MaterialReader {
         }
     }
 }
+
+const mr = new MaterialReader();
+const tick = setInterval(_ => {
+    let found = mr.find(imgs.samitesilk);
+    output.innerHTML = "<div>Silke "+ found ? 'Found' : 'Not Found' + "!</div>";
+}, 500);

@@ -2962,8 +2962,9 @@ __webpack_require__.r(__webpack_exports__);
 //tell webpack to add index.html and appconfig.json to output
 __webpack_require__(/*! !file-loader?name=[name].[ext]!./index.html */ "../node_modules/file-loader/dist/cjs.js?name=[name].[ext]!./index.html");
 __webpack_require__(/*! !file-loader?name=[name].[ext]!./appconfig.json */ "../node_modules/file-loader/dist/cjs.js?name=[name].[ext]!./appconfig.json");
-var font = __webpack_require__(/*! @alt1/ocr/fonts/pixel_digits_8px_shadow.js */ "../node_modules/@alt1/ocr/fonts/pixel_digits_8px_shadow.js");
-var imgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
+const output = document.querySelector("#output");
+const font = __webpack_require__(/*! @alt1/ocr/fonts/pixel_digits_8px_shadow.js */ "../node_modules/@alt1/ocr/fonts/pixel_digits_8px_shadow.js");
+const imgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
     materialstorage_header: __webpack_require__(/*! ./assets/img/window/materialstorage/header.data.png */ "./assets/img/window/materialstorage/header.data.png"),
     samitesilk: __webpack_require__(/*! ./assets/img/window/materialstorage/items/samitesilk.data.png */ "./assets/img/window/materialstorage/items/samitesilk.data.png"),
 });
@@ -2971,11 +2972,11 @@ class MaterialReader {
     constructor() {
         this.pos = null;
     }
-    find(img) {
+    find(material, img) {
         if (!img) {
             img = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs();
         }
-        let pos = img.findSubimage(imgs.samitesilk);
+        let pos = img.findSubimage(material);
         if (pos.length == 0) {
             return null;
         }
@@ -3009,6 +3010,11 @@ class MaterialReader {
         };
     }
 }
+const mr = new MaterialReader();
+const tick = setInterval(_ => {
+    let found = mr.find(imgs.samitesilk);
+    output.innerHTML = "<div>Silke " + found ? 'Found' : 0;
+}, 500);
 
 })();
 

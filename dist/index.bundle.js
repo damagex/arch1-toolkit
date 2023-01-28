@@ -3010,10 +3010,12 @@ class MaterialReader {
         };
     }
 }
+let i = 0;
 const mr = new MaterialReader();
 const tick = setInterval(_ => {
+    i++;
     let found = mr.find(imgs.samitesilk);
-    output.innerHTML = "<div>Silke " + found ? 'Found' : 0;
+    output.innerHTML = `<div>Silke ${found ? 'Found' : 'Not Found'}! ${i}</div>`;
 }, 500);
 
 })();

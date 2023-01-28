@@ -8,6 +8,7 @@
 	},
 	"devDependencies": {
 		"@alt1/imagedata-loader": "^1.0.0-alpha.6",
+		"@alt1/ocr": "^1.0.0-alpha.6",
 		"@alt1/webpack": "^1.0.0-alpha.5",
 		"@types/node": "^12.12.54",
 		"@types/webpack": "^5.28.0",

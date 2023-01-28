@@ -1,4 +1,5 @@
 # Minimal Alt1/webpack/typescript example
+alt1://addapp/https://damagex.github.io/arch1-toolkit/dist/appconfig.json
 
 how to use
 ```sh

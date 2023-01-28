@@ -2079,6 +2079,16 @@ module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/bas
 
 /***/ }),
 
+/***/ "./assets/img/window/materialstorage/items/samitesilk.data.png":
+/*!*********************************************************************!*\
+  !*** ./assets/img/window/materialstorage/items/samitesilk.data.png ***!
+  \*********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports=(__webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js").ImageDetect.imageDataFromBase64)("iVBORw0KGgoAAAANSUhEUgAAABUAAAATCAYAAAB/TkaLAAAAAW5vUEUAYtdMlAAAAARub1BFAAAAAEEgjiIAAAAJbm9QRQAAAAAAAAAAAKGKctUAAAEUSURBVDhPrZK9DsFQGIZPDX62Rggx2SRicAF2xs4WHYgb4CrEPTBwC7gLg8UNSKSJwWCwHN7jfPVptWkPjzZ9T6NP3vY7ll23ZatbE4fdSRBYA9yjzOH/vV3zOr2Qz19GZ/UwlwXBPTo598tZpzd+0yDfxJyRPVTX2X4ussWKygBNQ9I4GYmIoBAoaWfclFhEyYIiTqQUTfXax8k5OiVn7W3V9WNQADITIeADs9yGG2pqCtqGmv4KtbWeh9/UbQx0MmflbUQG06PzF8qFklgclypb2WL145v2yz2d3uCBOLC1AIqpLTVtT4wGRSLA3zK1NErESSRNIuLESvl3SkNImrbVN5QU06dNayri+FK9/gtSSPEAJtqAO7hXcIYAAAAASUVORK5CYII=")
+
+/***/ }),
+
 /***/ "../node_modules/@alt1/ocr/dist/index.js":
 /*!***********************************************!*\
   !*** ../node_modules/@alt1/ocr/dist/index.js ***!
@@ -2947,17 +2957,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _alt1_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @alt1/base */ "../node_modules/@alt1/base/dist/index.js");
 /* harmony import */ var _alt1_ocr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @alt1/ocr */ "../node_modules/@alt1/ocr/dist/index.js");
-//alt1 base libs, provides all the commonly used methods for image matching and capture
-//also gives your editor info about the window.alt1 api
 
 
 //tell webpack to add index.html and appconfig.json to output
 __webpack_require__(/*! !file-loader?name=[name].[ext]!./index.html */ "../node_modules/file-loader/dist/cjs.js?name=[name].[ext]!./index.html");
 __webpack_require__(/*! !file-loader?name=[name].[ext]!./appconfig.json */ "../node_modules/file-loader/dist/cjs.js?name=[name].[ext]!./appconfig.json");
 var font = __webpack_require__(/*! @alt1/ocr/fonts/pixel_digits_8px_shadow.js */ "../node_modules/@alt1/ocr/fonts/pixel_digits_8px_shadow.js");
-var output = document.getElementById("output");
 var imgs = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.ImageDetect.webpackImages({
-    materialstorage_header: __webpack_require__(/*! ./assets/img/window/materialstorage/header.data.png */ "./assets/img/window/materialstorage/header.data.png")
+    materialstorage_header: __webpack_require__(/*! ./assets/img/window/materialstorage/header.data.png */ "./assets/img/window/materialstorage/header.data.png"),
+    samitesilk: __webpack_require__(/*! ./assets/img/window/materialstorage/items/samitesilk.data.png */ "./assets/img/window/materialstorage/items/samitesilk.data.png"),
 });
 class MaterialReader {
     constructor() {
@@ -2967,13 +2975,14 @@ class MaterialReader {
         if (!img) {
             img = _alt1_base__WEBPACK_IMPORTED_MODULE_0__.captureHoldFullRs();
         }
-        let pos = img.findSubimage(imgs.materialstorage_header);
+        let pos = img.findSubimage(imgs.samitesilk);
         if (pos.length == 0) {
             return null;
         }
         if (pos.length > 1) {
             console.log("more than one possible boss timer found");
         }
+        console.log("Found!");
         this.pos = { x: pos[0].x - 8, y: pos[0].y - 12, width: 120, height: 35 };
         return this.pos;
     }

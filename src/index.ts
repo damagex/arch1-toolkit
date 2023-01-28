@@ -1,5 +1,3 @@
-//alt1 base libs, provides all the commonly used methods for image matching and capture
-//also gives your editor info about the window.alt1 api
 import * as a1lib from "@alt1/base";
 import { ImgRef, ImageDetect } from "@alt1/base";
 import * as OCR from "@alt1/ocr";
@@ -11,7 +9,8 @@ require("!file-loader?name=[name].[ext]!./appconfig.json");
 var font = require("@alt1/ocr/fonts/pixel_digits_8px_shadow.js");
 
 var imgs = a1lib.ImageDetect.webpackImages({
-    materialstorage_header: require("./assets/img/window/materialstorage/header.data.png")
+    materialstorage_header: require("./assets/img/window/materialstorage/header.data.png"),
+    samitesilk: require("./assets/img/window/materialstorage/items/samitesilk.data.png"),
 });
 
 export default class MaterialReader {
@@ -21,10 +20,10 @@ export default class MaterialReader {
     find(img?: ImgRef) {
         if (!img) { img = a1lib.captureHoldFullRs(); }
 
-        let pos = img.findSubimage(imgs.materialstorage_header);
+        let pos = img.findSubimage(imgs.samitesilk);
         if (pos.length == 0) { return null; }
         if (pos.length > 1) { console.log("more than one possible boss timer found"); }
-
+        console.log("Found!");
         this.pos = { x: pos[0].x - 8, y: pos[0].y - 12, width: 120, height: 35 };
         return this.pos;
     }
